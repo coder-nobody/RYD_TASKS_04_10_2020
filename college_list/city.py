@@ -1,7 +1,10 @@
 import requests
 from bs4 import BeautifulSoup
 import pandas
+import os
 
+os.mkdir(os.getcwd()+"\\INDIA")
+os.chdir(os.getcwd()+"\\INDIA")
 
 cities=['hyderabad','chennai','mumbai','bangalore','kolkata','pune','delhi','ahmedabad']
 courses=['engineering-colleges','mbbs-colleges','hotel-management-degree-courses','mba-colleges','pharmacy-colleges','nursing-colleges','aviation-colleges']
