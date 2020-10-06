@@ -13,7 +13,7 @@ def datacitywise(city,courses):
         try:
             r = requests.get(url+'/'+course+'/'+city)
             c = r.content
-            print((' COLLECTING DATA FROM: '+city+' COLLEGES FOR: '+course),end='\r')
+            print((' COLLECTING DATA FROM: '+city+' COLLEGES FOR: '+course+(" "*30)),end='\r')
             soup = BeautifulSoup(c, 'html.parser')
             qus = soup.find_all('div', {'class': 'head'})
             for i in qus:
@@ -58,77 +58,13 @@ if __name__ == "__main__":
         courses.append(lk[l:lk.rfind('/')])
 
     print(" COLLECTING DATA PLEASE WAIT...")
-    for x in range(0,len(cities),20):
-        
-        try:
-            p1 = mp.Process(target=datacitywise, args=(cities[x],courses )) 
-            p2 = mp.Process(target=datacitywise, args=(cities[x+1],courses ))
-            p3=mp.Process(target=datacitywise, args=(cities[x+2],courses ))
-            p4=mp.Process(target=datacitywise, args=(cities[x+3],courses ))
-            p5=mp.Process(target=datacitywise, args=(cities[x+4],courses ))
-            p6=mp.Process(target=datacitywise, args=(cities[x+5],courses ))
-            p7=mp.Process(target=datacitywise, args=(cities[x+6],courses ))
-            p8=mp.Process(target=datacitywise, args=(cities[x+7],courses ))
-            p9=mp.Process(target=datacitywise, args=(cities[x+8],courses ))
-            p10=mp.Process(target=datacitywise, args=(cities[x+9],courses ))
-            p11 = mp.Process(target=datacitywise, args=(cities[x+10],courses )) 
-            p12 = mp.Process(target=datacitywise, args=(cities[x+11],courses ))
-            p13=mp.Process(target=datacitywise, args=(cities[x+12],courses ))
-            p14=mp.Process(target=datacitywise, args=(cities[x+13],courses ))
-            p15=mp.Process(target=datacitywise, args=(cities[x+14],courses ))
-            p16=mp.Process(target=datacitywise, args=(cities[x+15],courses ))
-            p17=mp.Process(target=datacitywise, args=(cities[x+16],courses ))
-            p18=mp.Process(target=datacitywise, args=(cities[x+17],courses ))
-            p19=mp.Process(target=datacitywise, args=(cities[x+18],courses ))
-            p20=mp.Process(target=datacitywise, args=(cities[x+19],courses ))
-            
-            p1.start() 
-            p2.start() 
-            p3.start() 
-            p4.start()
-            p5.start() 
-            p6.start()
-            p7.start() 
-            p8.start()
-            p9.start() 
-            p10.start()
-            p11.start() 
-            p12.start() 
-            p13.start() 
-            p14.start()
-            p15.start() 
-            p16.start()
-            p17.start() 
-            p18.start()
-            p19.start() 
-            p20.start()
-            
-            p1.join()          
-            p2.join()
-            p3.join()          
-            p4.join()
-            p5.join()          
-            p6.join()
-            p7.join()          
-            p8.join()
-            p9.join()          
-            p10.join()
-            p11.join()          
-            p12.join()
-            p13.join()          
-            p14.join()
-            p15.join()          
-            p16.join()
-            p17.join()          
-            p18.join()
-            p19.join()          
-            p20.join()
-        except:
-            while x<len(cities):
-                p = mp.Process(target=datacitywise, args=(cities[x],courses ))
-                x+=1
-                p.start()
-                
+    for x in range(0,len(cities),25):     
+        n=0
+        while n<25 and (n+x)<len(cities):
+            p = mp.Process(target=datacitywise, args=(cities[x+n],courses ))
+            n+=1
+            p.start()
+        p.join()
         
 
 #print("\n ALL DATA SUCCESSFULLY COLLECTED........\n TERMINATING PROGRAM..............:)")
