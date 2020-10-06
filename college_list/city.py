@@ -2,13 +2,26 @@ import requests
 from bs4 import BeautifulSoup
 import pandas
 import os
+print("CREATING INDIA FOLDER...")
 
 os.mkdir(os.getcwd()+"\\INDIA")
 os.chdir(os.getcwd()+"\\INDIA")
-
-cities=['hyderabad','chennai','mumbai','bangalore','kolkata','pune','delhi','ahmedabad']
-courses=['engineering-colleges','mbbs-colleges','hotel-management-degree-courses','mba-colleges','pharmacy-colleges','nursing-colleges','aviation-colleges']
 url='https://www.sulekha.com'
+
+r = requests.get(url)
+c = r.content
+
+soup = BeautifulSoup(c, 'html.parser')
+cities = soup.find(id="topCities").get('value').lower().split(',')
+cities.remove("india")
+
+src=(soup.find(class_="edu-training").parent).find(class_="menu-container").find_all('a')
+courses=[]
+l=len(url)+1
+for x in src:
+    lk=str(x.get('href'))
+    courses.append(lk[l:lk.rfind('/')])
+
 print(" COLLECTING DATA PLEASE WAIT...")
 for city in cities:
     data=[]
