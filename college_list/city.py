@@ -13,7 +13,7 @@ def datacitywise(city,courses):
         try:
             r = requests.get(url+'/'+course+'/'+city)
             c = r.content
-            print((' COLLECTING DATA FROM: '+city+' COLLEGES FOR: '+course+(" "*30)),end='\r')
+            print((' COLLECTING DATA FROM: '+city+' COLLEGES FOR: '+course+(" "*20)),end='\r')
             soup = BeautifulSoup(c, 'html.parser')
             qus = soup.find_all('div', {'class': 'head'})
             for i in qus:
@@ -21,7 +21,11 @@ def datacitywise(city,courses):
                 if i.find('h3')!=None:
                     d['NAME'] = i.find('h3').text
                 if i.find('span', {'class': 'location'})!=None:
-                    d['LOCATION'] = i.find('span', {'class': 'location'}).text
+                    addr=i.find('span', {'class': 'location'}).text
+                    if addr.startswith('Also Servicing'):
+                        continue
+                    else:
+                        d['LOCATION'] = addr
                 if i.find('em')!=None:
                     d['COURSES'] = i.find('em').text
                 if i.find('b', {'class': "icon-phone f-icon isbvn"})!=None:
