@@ -1,11 +1,12 @@
 from telepot.namedtuple import  ReplyKeyboardMarkup
 from telepot.namedtuple import KeyboardButton as Kb
 import telepot as t
+
 #attention : dont change array '' in lists.
 k=ReplyKeyboardMarkup(keyboard=[[Kb(text='start test')]])
 k1=ReplyKeyboardMarkup(keyboard=[[Kb(text='try again')]])
 start=0
-lis=['']
+
 lis1=['','5*6',
       '2+2','4*3','80*100','200*300','123*534','872*634','1024*2048','1*1','80-423']#stringsare the questions
 lis2=['',
@@ -22,11 +23,11 @@ lis2=['',
       ]
 # about lis2 : strings are choices(to answer)
 lis3=['','30','4','12','8000','60000','65682','552848','2^21','1','-343']#list of right answers
-#start_time = None
+
 users={}
 def main(ms):
 
-    #global start_time
+    
     i = ms['chat']['id']
     
     if i in users:
@@ -35,25 +36,27 @@ def main(ms):
         users[i]=[0,['']];
         start=0
     
+    
     c = ms['text']
+    
     try:
         print(ms['from']['first_name']+" " +ms['from']['last_name'],' : ',c)
     except:
         print(ms['from']['username'],' : ',c)
     
     
-    #if c=='/start':
     if start==0:
         bot.sendMessage(i,'Test',reply_markup=k)#name of test
         
     if c=='start test' or c=='try again':
         start=1
 
-    if start and start<12:#number of questions-2
+    if start and start<12:
         if c=='STOP THE TEST':
             start=0
-            users[i][1]=[""]
-            bot.sendMessage(i,"YOU EXITED THE TEST...TO RESTART AGAIN ENTER: /start")
+            users[i][1]=['']
+            bot.sendMessage(i,str("YOU EXITED THE TEST...TO RESTART AGAIN ENTER: /start"))
+            return
             
         if c!='start test' and c!='try again':
             users[i][1].append(c)
@@ -63,7 +66,7 @@ def main(ms):
             start=0
             co=0
             no=0
-            #print(users[i][1])
+            
             for j in users[i][1]:
                 if j==lis3[co]:
                     no = no+1
@@ -72,12 +75,12 @@ def main(ms):
             bot.sendMessage(ms['chat']['id'], str(' \n YOUR RESULT : '+str(no)+'/10 '),reply_markup=k1)
         if start!=0:
             start=start+1
-    #else:
-        #bot.sendMessage(i,"TO Start the test enter \start")
-    users[i][0]=start
-
     
+    users[i][0]=start
+    
+
 bot=t.Bot('1327789124:AAG8RCtJj7sNUXyOU06YCC5qG95ULTdCVQM')
 bot.message_loop(main)
+
 while True:
     s = 1
